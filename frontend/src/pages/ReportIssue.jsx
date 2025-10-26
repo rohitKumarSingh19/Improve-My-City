@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 
@@ -13,9 +14,14 @@ const ReportIssue = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axiosInstance.post("/complaints", form);
-    alert("Issue reported successfully!");
-    setForm({ title: "", description: "", location: "" });
+    try {
+      await axiosInstance.post("/complaints", form);
+      alert("Issue reported successfully!");
+      setForm({ title: "", description: "", location: "" });
+    } catch (err) {
+      console.error("Error:", err.response?.data || err.message);
+      alert("Failed to report issue. Please log in again.");
+    }
   };
 
   return (
